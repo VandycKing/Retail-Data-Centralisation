@@ -9,6 +9,11 @@ class DatabaseConnector:
         self.db_engine = None
 
     def init_db_engine(self):
+        """This method initialises the database engine
+
+        Returns:
+            object: Returns the database engine object
+        """
         if self.db_config:
             try:
                 # Constructs database URL
@@ -29,6 +34,13 @@ class DatabaseConnector:
 
     @classmethod
     def read_db_creds(cls):
+        """This class method reads the RDS database credentials
+        from a yaml file and returns the class object
+
+        Returns:
+            object: Returns the class object of the Database Connector
+            class
+        """
         try:
             with open('db_creds.yaml', 'r') as db_config_file:
                 db_config = yaml.safe_load(db_config_file)
