@@ -38,3 +38,9 @@ class DatabaseConnector:
             print(f"Error reading the YAML file: {e}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
+
+# Initialise database
+if __name__ == "__main__":
+    db_connector = DatabaseConnector.read_db_creds()
+    db_connector.init_db_engine()
