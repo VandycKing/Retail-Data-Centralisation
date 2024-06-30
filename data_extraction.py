@@ -1,3 +1,4 @@
+import pandas as pd
 from sqlalchemy import MetaData, inspect
 import database_utils as db_utils
 
@@ -28,5 +29,16 @@ class DataExtractor:
             print(f"Error listing tables: {e}")
             return None
 
-    def read_rds_table(self):
-        pass
+    def read_rds_table(self, table_name):
+        if self.db_engine is None:
+            print("Database engine is not initialized.")
+            return None
+
+        try:
+            # Use pandas to read the table into a DataFrame
+            df = pd.read_sql_table(table_name, self.db_engine)
+            print(f"Successfully read table {table_name}.")
+            return df
+        except Exception as e:
+            print(f"Error reading table {table_name}: {e}")
+            return None
