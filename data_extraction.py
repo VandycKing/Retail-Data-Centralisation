@@ -15,6 +15,12 @@ class DataExtractor:
 
     # Function to list all the table names in the RDS
     def list_db_tables(self):
+        """This function lists all the table names in the 
+        RDS database.
+
+        Returns:
+            list: list of table names in a string format
+        """
         if self.db_engine is None:
             print("Database engine is not initialized.")
             return None
@@ -29,7 +35,17 @@ class DataExtractor:
             print(f"Error listing tables: {e}")
             return None
 
+    # Function to read tables from the rds database
     def read_rds_table(self, table_name):
+        """This function reads tables from the rds database into 
+        a pandas dataframe.
+
+        Args:
+            table_name (string): Name of table in the rds database
+
+        Returns:
+            Dataframe: Returns a pandas dataframe
+        """
         if self.db_engine is None:
             print("Database engine is not initialized.")
             return None
