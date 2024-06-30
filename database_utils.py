@@ -4,8 +4,8 @@ import sqlalchemy
 
 class DatabaseConnector:
 
-    def __init__(self):
-        self.db_config = None
+    def __init__(self, db_config):
+        self.db_config = db_config
         self.engine = None
 
     def init_db_engine(self):
@@ -26,11 +26,12 @@ class DatabaseConnector:
             except Exception as e:
                 print(f"Error initializing database engine: {e}")
 
-    def read_db_creds(self):
+    @classmethod
+    def read_db_creds(cls):
         try:
-            with open('db_config.yaml', 'r') as db_config_file:
-                self.db_config = yaml.safe_load(db_config_file)
-                return self.db_config
+            with open('db_creds.yaml', 'r') as db_config_file:
+                db_config = yaml.safe_load(db_config_file)
+                return cls(db_config)
         except FileNotFoundError:
             print("Error: The file 'db_creds.yaml' does not exist.")
         except yaml.YAMLError as e:
