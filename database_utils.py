@@ -6,13 +6,13 @@ class DatabaseConnector:
 
     def __init__(self, db_config):
         self.db_config = db_config
-        self.engine = None
+        self.db_engine = None
 
     def init_db_engine(self):
         if self.db_config:
             try:
-                # Constructs database url
-                db_url = db_url = (
+                # Constructs database URL
+                db_url = (
                     f"postgresql://{self.db_config['RDS_USER']}:"
                     f"{self.db_config['RDS_PASSWORD']}@"
                     f"{self.db_config['RDS_HOST']}:"
@@ -21,8 +21,9 @@ class DatabaseConnector:
                 )
 
                 # Creates SQLAlchemy engine
-                self.engine = sqlalchemy.create_engine(db_url)
+                self.db_engine = sqlalchemy.create_engine(db_url)
                 print("Database engine initialized successfully.")
+                return self.db_engine
             except Exception as e:
                 print(f"Error initializing database engine: {e}")
 
@@ -38,9 +39,11 @@ class DatabaseConnector:
             print(f"Error reading the YAML file: {e}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+        return None  # Returns None if there is an error
 
 
 # Initialise database
 if __name__ == "__main__":
     db_connector = DatabaseConnector.read_db_creds()
-    db_connector.init_db_engine()
+    if db_connector is not None:
+        db_connector.init_db_engine()
