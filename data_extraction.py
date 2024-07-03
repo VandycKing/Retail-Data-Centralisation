@@ -1,4 +1,5 @@
 import pandas as pd
+import tabula
 from sqlalchemy import MetaData, inspect
 import database_utils as db_utils
 
@@ -58,3 +59,30 @@ class DataExtractor:
         except Exception as e:
             print(f"Error reading table {table_name}: {e}")
             return None
+
+    def retrieve_pdf_data(self, link):
+        """This method reads tabular data from a PDF link.
+
+        Args:
+            link (str): This is a link to a PDF file.
+
+        Returns:
+            pd.DataFrame: A pandas DataFrame containing the concatenated data.
+        """
+        # Read the tables from the PDF with stream mode
+        dfs = tabula.read_pdf(link, pages='all', stream=True)
+
+        # Print the number of DataFrames extracted
+        print(f"The number of dataFrames in the link is: {len(dfs)}")
+
+        # Check if dfs is a list of DataFrames and concatenate them
+        if isinstance(dfs, list):
+            df = pd.concat(dfs, ignore_index=True)
+        else:
+            df = dfs
+
+        # Print the shape of the concatenated DataFrame
+        print(
+            f"The dataFrame has {df.shape[0]} rows and {df.shape[1]} columns")
+
+        return df
