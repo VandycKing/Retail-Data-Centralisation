@@ -53,6 +53,25 @@ class DatabaseConnector:
             print(f"An unexpected error occurred: {e}")
         return None  # Returns None if there is an error
 
+    # TODO: Use upload_to_db to load data to sales_data database in dim_users
+    def upload_to_db(self, df, table_name):
+        """Uploads pd.DataFrame to specified database table.
+
+        Args:
+            df (pd.DataFrame): The DataFrame to upload.
+            table_name (str): The name of the table in the database.
+        """
+        if not self.db_engine:
+            raise Exception("Database engine is not initialized.")
+
+        try:
+            # Ensure the table exists by creating it with DataFrame's schema
+            df.to_sql(table_name, self.db_engine,
+                      if_exists='replace', index=False)
+            print(f"Data uploaded to '{table_name}' successfully.")
+        except Exception as e:
+            print(f"Error uploading data to '{table_name}': {e}")
+
 
 # Initialise database
 if __name__ == "__main__":
