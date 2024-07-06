@@ -42,10 +42,10 @@ class DataExtractor:
         a pandas dataframe.
 
         Args:
-            table_name (string): Name of table in the rds database
+            table_name (str): Name of table in the rds database
 
         Returns:
-            Dataframe: Returns a pandas dataframe
+            pd.DataFrame: Returns a pandas dataframe 
         """
         if self.db_engine is None:
             print("Database engine is not initialized.")
@@ -73,7 +73,7 @@ class DataExtractor:
         dfs = tabula.read_pdf(link, pages='all', stream=True)
 
         # Print the number of DataFrames extracted
-        print(f"The number of dataFrames in the link is: {len(dfs)}")
+        print(f"The number of DataFrames in the link is: {len(dfs)}")
 
         # Check if dfs is a list of DataFrames and concatenate them
         if isinstance(dfs, list):
@@ -83,6 +83,6 @@ class DataExtractor:
 
         # Print the shape of the concatenated DataFrame
         print(
-            f"The dataFrame has {df.shape[0]} rows and {df.shape[1]} columns")
+            f"The DataFrame has {df.shape[0]} rows and {df.shape[1]} columns")
 
         return df
